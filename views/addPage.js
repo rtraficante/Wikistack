@@ -46,7 +46,7 @@ module.exports = () =>
         <div class="col-sm-10">
           <textarea
             id="content"
-            name="Content"
+            name="content"
             type="text"
             class="form-control"
           ></textarea>

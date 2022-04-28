@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const addPage = require("../views/addPage.js");
+const { Page } = require("../models");
 
 router.get("/", (req, res) => {
   try {
@@ -10,11 +11,27 @@ router.get("/", (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+function generateSlug(title) {
+  return title.replace(/\s+/g, "_").replace(/\W/g, "");
+}
+
+router.post("/", async (req, res) => {
+  const title = req.body.title;
+  const content = req.body.content;
+
   try {
-    res.json(req.body);
+    const page = await Page.create({
+      title: title,
+      content: content,
+    });
+
+    page.beforeValidate(() => {
+      page.slug = generateSlug(title)
+    });
+
+    res.redirect("/");
   } catch (err) {
-    console.log("still an error");
+    console.log(err);
   }
 });
 
