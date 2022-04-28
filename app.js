@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const layout = require("./views/layout");
 const main = require("./views/main");
-const { db, Page, User } = require("./models");
+const { db } = require("./models");
 
 const app = express();
 
