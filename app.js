@@ -1,10 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
-const layout = require("./views/layout");
-const main = require("./views/main");
 const { db } = require("./models");
 const users = require("./routes/users");
 const wiki = require("./routes/wiki");
+const methodOverride = require("method-override");
 
 const app = express();
 
@@ -13,6 +12,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(methodOverride("_method"));
 
 app.use("/users", users);
 app.use("/wiki", wiki);
@@ -30,7 +30,7 @@ const PORT = 1337;
 // Initiallized Database and Server
 const init = async () => {
   // Syncing database models
-  await db.sync({ force: true });
+  await db.sync({ force: false });
 
   app.listen(PORT, () => {
     console.log(`Server is up and running on ${PORT}`);
